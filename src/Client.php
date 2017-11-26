@@ -9,34 +9,77 @@ use Http\Discovery\MessageFactoryDiscovery;
 use Psr\Http\Message\ResponseInterface;
 use Matthewbdaly\Postcode\Exceptions\PaymentRequired;
 
+/**
+ * Postcode client
+ */
 class Client
 {
+    /**
+     * Base URL
+     *
+     * @var $baseUrl
+     */
     protected $baseUrl = 'https://api.ideal-postcodes.co.uk/v1/postcodes/';
 
+    /**
+     * API key
+     *
+     * @var $key
+     */
     protected $key;
 
+    /**
+     * Constructor
+     *
+     * @param HttpClient     $client         The HTTP client instance.
+     * @param MessageFactory $messageFactory The message factory instance.
+     * @return void
+     */
     public function __construct(HttpClient $client = null, MessageFactory $messageFactory = null)
     {
         $this->client = $client ?: HttpClientDiscovery::find();
         $this->messageFactory = $messageFactory ?: MessageFactoryDiscovery::find();
     }
 
+    /**
+     * Get base URL
+     *
+     * @return string
+     */
     public function getBaseUrl()
     {
         return $this->baseUrl;
     }
 
+    /**
+     * Get API key
+     *
+     * @return string
+     */
     public function getKey()
     {
         return $this->key;
     }
 
+    /**
+     * Set API key
+     *
+     * @param string $key The API key.
+     * @return Client
+     */
     public function setKey(string $key)
     {
         $this->key = $key;
         return $this;
     }
 
+    /**
+     * Make the HTTP request
+     *
+     * @param string $postcode The postcode to look up.
+     * @return mixed
+     * @throws PaymentRequired Payment required to perform the lookup.
+     */
     public function get(string $postcode)
     {
         $url = $this->getBaseUrl() . rawurlencode($postcode) . '?' . http_build_query([
