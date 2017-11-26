@@ -1,0 +1,26 @@
+{
+    "name": "matthewbdaly/postcode-client",
+    "description": "A postcode lookup client.",
+    "type": "library",
+    "keywords": ["postcode"],
+    "require": {
+    },
+    "require-dev": {
+        "psy/psysh": "^0.8.0",
+        "phpspec/phpspec": "^3.2",
+        "squizlabs/php_codesniffer": "^2.7"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Matthew Daly",
+            "email": "matthewbdaly@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Matthewbdaly\\Postcode\\": "src/"
+        }
+    }
+
+}
