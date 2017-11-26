@@ -11,6 +11,8 @@ class Client
 {
     protected $baseUrl = 'https://api.ideal-postcodes.co.uk/v1/postcodes/';
 
+    protected $key;
+
     public function __construct(HttpClient $client = null, MessageFactory $messageFactory = null)
     {
         $this->client = $client ?: HttpClientDiscovery::find();
@@ -20,5 +22,16 @@ class Client
     public function getBaseUrl()
     {
         return $this->baseUrl;
+    }
+
+    public function getKey()
+    {
+        return $this->key;
+    }
+
+    public function setKey(string $key)
+    {
+        $this->key = $key;
+        return $this;
     }
 }

@@ -24,4 +24,11 @@ class ClientSpec extends ObjectBehavior
     {
         $this->getBaseUrl()->shouldReturn('https://api.ideal-postcodes.co.uk/v1/postcodes/');
     }
+
+    function it_can_get_and_set_the_key()
+    {
+        $this->getKey()->shouldReturn(null);
+        $this->setKey('foo')->shouldReturn($this);
+        $this->getKey()->shouldReturn('foo');
+    }
 }
