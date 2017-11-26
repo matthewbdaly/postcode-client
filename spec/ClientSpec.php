@@ -10,6 +10,7 @@ use Http\Message\MessageFactory;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
+use Matthewbdaly\Postcode\Exceptions\PaymentRequired;
 
 class ClientSpec extends ObjectBehavior
 {
@@ -81,5 +82,15 @@ class ClientSpec extends ObjectBehavior
         $response->getBody()->willReturn($stream);
         $stream->getContents()->willReturn($data);
         $this->get('SW1A 2AA')->shouldBeLike(json_decode($data, true));
+    }
+
+    function it_throws_an_exception_if_payment_required(HttpClient $client, MessageFactory $messageFactory, RequestInterface $request, ResponseInterface $response, StreamInterface $stream)
+    {
+        $this->beConstructedWith($client, $messageFactory);
+        $this->setKey('foo');
+        $messageFactory->createRequest('GET', 'https://api.ideal-postcodes.co.uk/v1/postcodes/SW1A%202AA?api_key=foo', [], null, '1.1')->willReturn($request);
+        $client->sendRequest($request)->willReturn($response);
+        $response->getStatusCode()->willReturn(402);
+        $this->shouldThrow(PaymentRequired::class)->duringGet('SW1A 2AA');
     }
 }
