@@ -21,7 +21,7 @@ Usage
 
 require 'vendor/autoload.php';
 
-use Matthewbdaly\Postcode\Client
+use Matthewbdaly\Postcode\Client;
 
 $client = new Client();
 $response = $client->setKey('<MY_API_KEY>')
