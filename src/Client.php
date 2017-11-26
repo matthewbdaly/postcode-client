@@ -7,7 +7,6 @@ use Http\Discovery\HttpClientDiscovery;
 use Http\Message\MessageFactory;
 use Http\Discovery\MessageFactoryDiscovery;
 use Psr\Http\Message\ResponseInterface;
-use Matthewbdaly\Postcode\Exceptions\ClientException;
 
 class Client
 {
@@ -50,9 +49,6 @@ class Client
             '1.1'
         );
         $response = $this->client->sendRequest($request);
-        if ($response->getStatusCode() == 403) {
-            throw new ClientException;
-        }
         $data = json_decode($response->getBody()->getContents(), true);
         return $data;
     }
