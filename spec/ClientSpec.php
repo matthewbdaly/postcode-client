@@ -11,6 +11,7 @@ use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
 use Matthewbdaly\Postcode\Exceptions\PaymentRequired;
+use Matthewbdaly\Postcode\Exceptions\PostcodeNotFound;
 
 class ClientSpec extends ObjectBehavior
 {
@@ -92,5 +93,15 @@ class ClientSpec extends ObjectBehavior
         $client->sendRequest($request)->willReturn($response);
         $response->getStatusCode()->willReturn(402);
         $this->shouldThrow(PaymentRequired::class)->duringGet('SW1A 2AA');
+    }
+
+    function it_throws_an_exception_if_postcode_not_found(HttpClient $client, MessageFactory $messageFactory, RequestInterface $request, ResponseInterface $response, StreamInterface $stream)
+    {
+        $this->beConstructedWith($client, $messageFactory);
+        $this->setKey('foo');
+        $messageFactory->createRequest('GET', 'https://api.ideal-postcodes.co.uk/v1/postcodes/SW1A%202AA?api_key=foo', [], null, '1.1')->willReturn($request);
+        $client->sendRequest($request)->willReturn($response);
+        $response->getStatusCode()->willReturn(404);
+        $this->shouldThrow(PostcodeNotFound::class)->duringGet('SW1A 2AA');
     }
 }

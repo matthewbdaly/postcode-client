@@ -8,6 +8,7 @@ use Http\Message\MessageFactory;
 use Http\Discovery\MessageFactoryDiscovery;
 use Psr\Http\Message\ResponseInterface;
 use Matthewbdaly\Postcode\Exceptions\PaymentRequired;
+use Matthewbdaly\Postcode\Exceptions\PostcodeNotFound;
 
 /**
  * Postcode client
@@ -95,6 +96,9 @@ class Client
         $response = $this->client->sendRequest($request);
         if ($response->getStatusCode() == 402) {
             throw new PaymentRequired;
+        }
+        if ($response->getStatusCode() == 404) {
+            throw new PostcodeNotFound;
         }
         $data = json_decode($response->getBody()->getContents(), true);
         return $data;
