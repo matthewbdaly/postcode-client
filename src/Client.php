@@ -80,6 +80,7 @@ class Client
      * @param string $postcode The postcode to look up.
      * @return mixed
      * @throws PaymentRequired Payment required to perform the lookup.
+     * @throws PostcodeNotFound Postcode not found.
      */
     public function get(string $postcode)
     {
