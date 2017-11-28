@@ -9,11 +9,12 @@ use Http\Discovery\MessageFactoryDiscovery;
 use Psr\Http\Message\ResponseInterface;
 use Matthewbdaly\Postcode\Exceptions\PaymentRequired;
 use Matthewbdaly\Postcode\Exceptions\PostcodeNotFound;
+use Matthewbdaly\Postcode\Contracts\Client as ClientContract;
 
 /**
  * Postcode client
  */
-class Client
+class Client implements ClientContract
 {
     /**
      * Base URL
